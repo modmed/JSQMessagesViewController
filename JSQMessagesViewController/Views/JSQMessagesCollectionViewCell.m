@@ -347,9 +347,12 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     //  because of cell re-use (and caching media views, if using built-in library media item)
     //  we may have dequeued a cell with a media view and add this one on top
     //  thus, remove any additional subviews hidden behind the new media view
+    
+    __weak __typeof__(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.messageBubbleContainerView.subviews enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger index, BOOL *stop) {
-            if (subview != _mediaView) {
+        __typeof__(self) strongSelf = weakSelf;
+        [strongSelf.messageBubbleContainerView.subviews enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger index, BOOL *stop) {
+            if (subview != strongSelf.mediaView) {
                 [subview removeFromSuperview];
             }
         }];
